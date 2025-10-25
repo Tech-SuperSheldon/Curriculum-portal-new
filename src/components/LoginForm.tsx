@@ -155,9 +155,7 @@ export default function LoginForm({ error }: LoginFormProps) {
                 </button>
 
                 {/* Demo Info */}
-                <p className="text-xs sm:text-sm text-gray-400 mt-2 text-center">
-                  Demo login: <b>teacher@example.com</b> / <b>12345</b>
-                </p>
+             
               </div>
             </>
           ) : (
