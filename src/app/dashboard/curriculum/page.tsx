@@ -34,7 +34,7 @@ export default function CurriculumPage() {
   useEffect(() => {
     const email = sessionStorage.getItem("email") || "";
     setCurrentUserEmail(email);
-    const admin = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "teacher@example.com").toLowerCase();
+    const admin = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "Support@supersheldon.com").toLowerCase();
     setIsAdmin(email.toLowerCase() === admin);
   }, []);
 
