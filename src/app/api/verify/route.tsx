@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   if (token === "securetoken123")
     return Response.json({
       valid: true,
-      user: "teacher@example.com",
+      user: "Support@supersheldon.com",
       appName: "Secure Portal",
     });
   return Response.json({ valid: false });
