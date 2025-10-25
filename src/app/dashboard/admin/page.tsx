@@ -7,7 +7,7 @@ export default function AdminPortal() {
   const adminEmails = [
     "admin@supersheldon.com",
     "hello.supersheldon@gmail.com",
-    "teacher@example.com",
+    " Support@supersheldon.com",
   ];
 
   useEffect(() => {
