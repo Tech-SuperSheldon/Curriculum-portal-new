@@ -9,8 +9,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { user, pass } = body || {};
 
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "teacher@example.com";
-  const ADMIN_PASS = process.env.ADMIN_PASS || "12345";
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || " Support@supersheldon.com";
+  const ADMIN_PASS = process.env.ADMIN_PASS || "Super@12345#";
   const ALLOWED_USERS = (process.env.ALLOWED_USERS || ADMIN_EMAIL)
     .split(",")
     .map((e) => e.trim().toLowerCase());
