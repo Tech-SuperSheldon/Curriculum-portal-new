@@ -1,10 +1,9 @@
+
+You said:
 import { NextRequest, NextResponse } from "next/server";
-import { OAuth2Client } from "google-auth-library";
+import { verify } from "jsonwebtoken";
 
 export const runtime = "nodejs";
-
-/* 🔐 Initialize Google OAuth Client */
-const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
 /** 🔧 Helper: Normalize YouTube links into embed-safe URLs */
 function normalizeYouTube(url: string): string {
@@ -21,32 +20,26 @@ function normalizeYouTube(url: string): string {
       videoId = url.split("/embed/")[1].split("?")[0];
     }
 
-    return `https://www.youtube-nocookie.com/embed/${videoId}`;
+    return https://www.youtube-nocookie.com/embed/${videoId};
   } catch {
     return url;
   }
 }
 
-/** 🧠 Main Route Handler */
 export async function GET(req: NextRequest) {
   try {
-    /** 1️⃣ Verify Google ID Token */
+    /** 1️⃣ Verify Token */
     const headerToken =
       req.headers.get("authorization")?.replace("Bearer ", "").trim() || "";
-    const cookieToken = req.cookies.get("google_token")?.value || "";
+    const cookieToken = req.cookies.get("auth_token")?.value || "";
     const token = headerToken || cookieToken;
+    if (!token) throw new Error("Missing token");
 
-    if (!token) throw new Error("Missing Google token");
-
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    });
-
-    const payload = ticket.getPayload();
-    if (!payload) throw new Error("Invalid Google token");
-
-    const userEmail = payload.email || "unknown";
+    const decoded = verify(token, process.env.JWT_SECRET || "super_secure_secret") as {
+      user: string;
+      iat: number;
+      exp: number;
+    };
 
     /** 2️⃣ Identify Curriculum */
     const { searchParams } = new URL(req.url);
@@ -58,7 +51,7 @@ export async function GET(req: NextRequest) {
     if (curriculum === "demo1") {
       slides = Array.from({ length: 60 }, (_, i) => ({
         type: "image" as const,
-        url: `/slides/demo/demo1/${i + 1}.png`,
+        url: /slides/demo/demo1/${i + 1}.png,
       }));
 
       const demo1Embeds = [
@@ -71,7 +64,6 @@ export async function GET(req: NextRequest) {
           url: "https://wordwall.net/embed/944c1ac9a3c5478bbd5f52391efb495a?themeId=1&templateId=3&fontStackId=0",
         },
       ];
-
       demo1Embeds.forEach(({ index, url }) => {
         if (index >= 0 && index < slides.length)
           slides[index] = { type: "embed", url };
@@ -82,7 +74,7 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "demo2") {
       slides = Array.from({ length: 45 }, (_, i) => ({
         type: "image" as const,
-        url: `/slides/demo/demo2/${i + 1}.png`,
+        url: /slides/demo/demo2/${i + 1}.png,
       }));
 
       const demo2Embeds = [
@@ -107,16 +99,16 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "demo3") {
       slides = Array.from({ length: 41 }, (_, i) => ({
         type: "image" as const,
-        url: `/slides/demo/demo3/${i + 1}.png`,
+        url: /slides/demo/demo3/${i + 1}.png,
       }));
 
       const demo3Embeds = [
         {
-          index: 17,
+          index: 17, // slide 18 (Wordwall)
           url: "https://wordwall.net/embed/e1e1b336b36d452081059394734c7a6f?themeId=1&templateId=3&fontStackId=0",
         },
         {
-          index: 18,
+          index: 18, // slide 19 (YouTube)
           url: "https://www.youtube.com/embed/CxCsk-rvfTQ?si=tBr4HkAp1DQROo3B",
         },
       ];
@@ -132,7 +124,7 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "ppt1") {
       slides = Array.from({ length: 47 }, (_, i) => ({
         type: "image" as const,
-        url: `/slides/naplan/ppt1/${i + 1}.png`,
+        url: /slides/naplan/ppt1/${i + 1}.png,
       }));
 
       const wordwallEmbeds = [
@@ -153,7 +145,6 @@ export async function GET(req: NextRequest) {
           url: "https://wordwall.net/embed/f89b9ee51b51410b85c01599d5acfae9?themeId=41&templateId=5&fontStackId=0",
         },
       ];
-
       wordwallEmbeds.forEach(({ index, url }) => {
         if (index >= 0 && index < slides.length)
           slides[index] = { type: "embed", url };
@@ -225,7 +216,7 @@ export async function GET(req: NextRequest) {
 
     /* Default fallback */
     else {
-      slides = [{ type: "image", url: `/slides/naplan/${curriculum}/1.png` }];
+      slides = [{ type: "image", url: /slides/naplan/${curriculum}/1.png }];
     }
 
     /** 4️⃣ Secure JSON Response */
@@ -233,15 +224,15 @@ export async function GET(req: NextRequest) {
       slides,
       total: slides.length,
       curriculum,
-      user: userEmail,
+      user: decoded.user,
       appName: "Super Sheldon Secure Portal",
       timestamp: new Date().toISOString(),
     });
   } catch (err: any) {
     console.error("[slides] route error:", err.message || err);
     return NextResponse.json(
-      { error: "Unauthorized or invalid Google token" },
+      { error: "Unauthorized or invalid token" },
       { status: 401 }
     );
   }
-}
+} 
