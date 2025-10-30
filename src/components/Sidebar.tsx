@@ -2,6 +2,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User, BookOpen, Settings, Shield } from "lucide-react"; // ✅ Added Shield for admin icon
+import {useUser} from 
 
 export default function Sidebar() {
   const router = useRouter();
