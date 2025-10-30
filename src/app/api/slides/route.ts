@@ -18,7 +18,7 @@ function normalizeYouTube(url: string): string {
       videoId = url.split("/embed/")[1].split("?")[0];
     }
 
-    return https://www.youtube-nocookie.com/embed/${videoId};
+    return `https://www.youtube-nocookie.com/embed/${videoId}`;
   } catch {
     return url;
   }
