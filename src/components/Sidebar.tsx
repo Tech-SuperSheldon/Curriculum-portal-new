@@ -2,7 +2,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User, BookOpen, Settings, Shield } from "lucide-react"; // ✅ Added Shield for admin icon
-import {useUser} from 
+import {useUser} from '@/context/UserContext';
 
 export default function Sidebar() {
   const router = useRouter();
@@ -11,11 +11,9 @@ export default function Sidebar() {
   const [email, setEmail] = useState<string | null>(null);
 
   // ✅ Allowed admin Gmail accounts
-  const adminEmails = [
-    "admin@supersheldon.com",
-    "hello.supersheldon@gmail.com",
-    "teacher@example.com",
-  ];
+  const {user}= useUser();
+
+  
 
   // Auto collapse when visiting Curriculum
   useEffect(() => {
@@ -38,7 +36,7 @@ export default function Sidebar() {
   ];
 
   // ✅ Add Admin Portal only if user email is authorized
-  if (email && adminEmails.includes(email)) {
+  if (user && user?.role== "admin") {
     items.push({
       name: "Admin Portal",
       path: "/dashboard/admin",
