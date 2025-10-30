@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     if (curriculum === "demo1") {
       slides = Array.from({ length: 60 }, (_, i) => ({
         type: "image" as const,
-        url: /slides/demo/demo1/${i + 1}.png,
+        url:`/slides/demo/demo1/${i + 1}.png`,
       }));
 
       const demo1Embeds = [
