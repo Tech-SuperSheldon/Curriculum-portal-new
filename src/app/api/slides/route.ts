@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "demo2") {
       slides = Array.from({ length: 45 }, (_, i) => ({
         type: "image" as const,
-        url: /slides/demo/demo2/${i + 1}.png,
+        url: `/slides/demo/demo2/${i + 1}.png`,
       }));
 
       const demo2Embeds = [
@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "demo3") {
       slides = Array.from({ length: 41 }, (_, i) => ({
         type: "image" as const,
-        url: /slides/demo/demo3/${i + 1}.png,
+        url: `/slides/demo/demo3/${i + 1}.png`,
       }));
 
       const demo3Embeds = [
@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
     else if (curriculum === "ppt1") {
       slides = Array.from({ length: 47 }, (_, i) => ({
         type: "image" as const,
-        url: /slides/naplan/ppt1/${i + 1}.png,
+        url: `/slides/naplan/ppt1/${i + 1}.png`,
       }));
 
       const wordwallEmbeds = [
@@ -214,7 +214,7 @@ export async function GET(req: NextRequest) {
 
     /* Default fallback */
     else {
-      slides = [{ type: "image", url: /slides/naplan/${curriculum}/1.png }];
+      slides = [{ type: "image", url: `/slides/naplan/${curriculum}/1.png` }];
     }
 
     /** 4️⃣ Secure JSON Response */
