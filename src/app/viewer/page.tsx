@@ -23,11 +23,6 @@ export default function ViewerPage() {
     const token = sessionStorage.getItem("token");
     const email = sessionStorage.getItem("email");
 
-    if (!token || !email) {
-      router.replace("/login");
-      return;
-    }
-
     setUser(email);
 
     if (!curriculumId) {
