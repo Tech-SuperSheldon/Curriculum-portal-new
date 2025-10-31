@@ -1,23 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verify } from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
 
 export const runtime = "nodejs";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /** 🔧 Helper: Normalize YouTube links into embed-safe URLs */
 function normalizeYouTube(url: string): string {
   try {
     if (!url.includes("youtube") && !url.includes("youtu.be")) return url;
-
     let videoId = "";
-
-    if (url.includes("watch?v=")) {
-      videoId = url.split("v=")[1].split("&")[0];
-    } else if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("/embed/")) {
-      videoId = url.split("/embed/")[1].split("?")[0];
-    }
-
+    if (url.includes("watch?v=")) videoId = url.split("v=")[1].split("&")[0];
+    else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
+    else if (url.includes("/embed/")) videoId = url.split("/embed/")[1].split("?")[0];
     return `https://www.youtube-nocookie.com/embed/${videoId}`;
   } catch {
     return url;
@@ -26,20 +21,30 @@ function normalizeYouTube(url: string): string {
 
 export async function GET(req: NextRequest) {
   try {
-    /** 1️⃣ Verify Token */
-    const headerToken =
-      req.headers.get("authorization")?.replace("Bearer ", "").trim() || "";
+    /** 1️⃣ Extract Google ID token */
+    const headerToken = req.headers.get("authorization")?.replace("Bearer ", "").trim() || "";
     const cookieToken = req.cookies.get("auth_token")?.value || "";
     const token = headerToken || cookieToken;
-    if (!token) throw new Error("Missing token");
+    if (!token) throw new Error("Missing Google token");
 
-    const decoded = verify(token, process.env.JWT_SECRET || "super_secure_secret") as {
-      user: string;
-      iat: number;
-      exp: number;
+    /** 2️⃣ Verify with Google */
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload || !payload.email) throw new Error("Invalid Google ID token");
+
+    const user = {
+      email: payload.email,
+      name: payload.name,
+      picture: payload.picture,
+      given_name: payload.given_name,
+      family_name: payload.family_name,
     };
 
-    /** 2️⃣ Identify Curriculum */
+    /** 3️⃣ Identify Curriculum */
     const { searchParams } = new URL(req.url);
     const curriculum = searchParams.get("curriculum")?.toLowerCase() || "ppt1";
 
@@ -49,22 +54,16 @@ export async function GET(req: NextRequest) {
     if (curriculum === "demo1") {
       slides = Array.from({ length: 60 }, (_, i) => ({
         type: "image" as const,
-        url:`/slides/demo/demo1/${i + 1}.png`,
+        url: `/slides/demo/demo1/${i + 1}.png`,
       }));
 
       const demo1Embeds = [
-        {
-          index: 16,
-          url: "https://wordwall.net/embed/1093ca070db946c6b61b355753dc1f98?themeId=1&templateId=2&fontStackId=0",
-        },
-        {
-          index: 19,
-          url: "https://wordwall.net/embed/944c1ac9a3c5478bbd5f52391efb495a?themeId=1&templateId=3&fontStackId=0",
-        },
+        { index: 16, url: "https://wordwall.net/embed/1093ca070db946c6b61b355753dc1f98?themeId=1&templateId=2&fontStackId=0" },
+        { index: 19, url: "https://wordwall.net/embed/944c1ac9a3c5478bbd5f52391efb495a?themeId=1&templateId=3&fontStackId=0" },
       ];
+
       demo1Embeds.forEach(({ index, url }) => {
-        if (index >= 0 && index < slides.length)
-          slides[index] = { type: "embed", url };
+        if (index < slides.length) slides[index] = { type: "embed", url };
       });
     }
 
@@ -76,20 +75,13 @@ export async function GET(req: NextRequest) {
       }));
 
       const demo2Embeds = [
-        {
-          index: 12,
-          url: "https://wordwall.net/embed/8f0c42e5e9fc4f13b751b983680e6b06?themeId=4&templateId=3&fontStackId=0",
-        },
-        {
-          index: 30,
-          url: "https://www.youtube.com/watch?v=gwuqA1Ys9Zo",
-        },
+        { index: 12, url: "https://wordwall.net/embed/8f0c42e5e9fc4f13b751b983680e6b06?themeId=4&templateId=3&fontStackId=0" },
+        { index: 30, url: "https://www.youtube.com/watch?v=gwuqA1Ys9Zo" },
       ];
 
       demo2Embeds.forEach(({ index, url }) => {
         const finalUrl = normalizeYouTube(url);
-        if (index >= 0 && index < slides.length)
-          slides[index] = { type: "embed", url: finalUrl };
+        if (index < slides.length) slides[index] = { type: "embed", url: finalUrl };
       });
     }
 
@@ -101,20 +93,13 @@ export async function GET(req: NextRequest) {
       }));
 
       const demo3Embeds = [
-        {
-          index: 17, // slide 18 (Wordwall)
-          url: "https://wordwall.net/embed/e1e1b336b36d452081059394734c7a6f?themeId=1&templateId=3&fontStackId=0",
-        },
-        {
-          index: 18, // slide 19 (YouTube)
-          url: "https://www.youtube.com/embed/CxCsk-rvfTQ?si=tBr4HkAp1DQROo3B",
-        },
+        { index: 17, url: "https://wordwall.net/embed/e1e1b336b36d452081059394734c7a6f?themeId=1&templateId=3&fontStackId=0" },
+        { index: 18, url: "https://www.youtube.com/embed/CxCsk-rvfTQ?si=tBr4HkAp1DQROo3B" },
       ];
 
       demo3Embeds.forEach(({ index, url }) => {
         const finalUrl = normalizeYouTube(url);
-        if (index >= 0 && index < slides.length)
-          slides[index] = { type: "embed", url: finalUrl };
+        if (index < slides.length) slides[index] = { type: "embed", url: finalUrl };
       });
     }
 
@@ -126,26 +111,13 @@ export async function GET(req: NextRequest) {
       }));
 
       const wordwallEmbeds = [
-        {
-          index: 8,
-          url: "https://wordwall.net/embed/082a5489902e479aa47dc9ad2f2d2a1c?themeId=1&templateId=2&fontStackId=0",
-        },
-        {
-          index: 12,
-          url: "https://wordwall.net/embed/06cd4733511c45a1bbc62fc21322a471?themeId=1&templateId=5&fontStackId=0",
-        },
-        {
-          index: 15,
-          url: "https://wordwall.net/embed/84047d63749241efa6d2a1dea290186a?themeId=1&templateId=3&fontStackId=0",
-        },
-        {
-          index: 17,
-          url: "https://wordwall.net/embed/f89b9ee51b51410b85c01599d5acfae9?themeId=41&templateId=5&fontStackId=0",
-        },
+        { index: 8, url: "https://wordwall.net/embed/082a5489902e479aa47dc9ad2f2d2a1c?themeId=1&templateId=2&fontStackId=0" },
+        { index: 12, url: "https://wordwall.net/embed/06cd4733511c45a1bbc62fc21322a471?themeId=1&templateId=5&fontStackId=0" },
+        { index: 15, url: "https://wordwall.net/embed/84047d63749241efa6d2a1dea290186a?themeId=1&templateId=3&fontStackId=0" },
+        { index: 17, url: "https://wordwall.net/embed/f89b9ee51b51410b85c01599d5acfae9?themeId=41&templateId=5&fontStackId=0" },
       ];
       wordwallEmbeds.forEach(({ index, url }) => {
-        if (index >= 0 && index < slides.length)
-          slides[index] = { type: "embed", url };
+        if (index < slides.length) slides[index] = { type: "embed", url };
       });
     }
 
@@ -212,25 +184,17 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    /* Default fallback */
-    else {
-      slides = [{ type: "image", url: `/slides/naplan/${curriculum}/1.png` }];
-    }
-
-    /** 4️⃣ Secure JSON Response */
+    /** ✅ Secure Response */
     return NextResponse.json({
       slides,
       total: slides.length,
       curriculum,
-      user: decoded.user,
+      user,
       appName: "Super Sheldon Secure Portal",
       timestamp: new Date().toISOString(),
     });
   } catch (err: any) {
-    console.error("[slides] route error:", err.message || err);
-    return NextResponse.json(
-      { error: "Unauthorized or invalid token" },
-      { status: 401 }
-    );
+    console.error("[slides] Google verification failed:", err.message);
+    return NextResponse.json({ error: "Unauthorized or invalid Google token" }, { status: 401 });
   }
-} 
+}
