@@ -6,9 +6,9 @@ import {
   GoogleLogin,
   CredentialResponse,
 } from "@react-oauth/google";
+import axiosClient from "../utils/axiosClient";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
 
 type AllowedGoogleButtonText =
   | "signin_with"
@@ -25,18 +25,17 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({
   buttonText = "continue_with",
 }) => {
   const { setUser } = useUser();
-  const router = useRouter();
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      // ✅ This is the Google ID token (JWT)
+      // ✅ This is the Google ID token
       const token = credentialResponse.credential;
       if (!token) throw new Error("No credential returned from Google");
 
-      // Persist token for secure routes (viewer, slides, etc.)
+      // Store it for all secure routes (viewer, slides, etc.)
       localStorage.setItem("token", token);
 
-      // 🔒 Verify token with your backend
+      // Optional: Verify immediately via your backend
       const verify = await fetch("/api/verify", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,25 +45,21 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({
         throw new Error("Google verification failed");
       }
 
-      // ✅ Save user in context and localStorage
+      // Save user context
       setUser({
         email: verifyData.user,
         name: verifyData.name || "User",
-        picture: verifyData.picture || "",
       });
-
       localStorage.setItem("email", verifyData.user);
-      if (verifyData.name) localStorage.setItem("name", verifyData.name);
-      if (verifyData.picture) localStorage.setItem("picture", verifyData.picture);
 
       console.log("✅ Verified via Google:", verifyData.user);
 
-      // 🚀 Redirect user
-      router.push("/dashboard");
+      // Redirect user
+      window.location.href = "/dashboard";
     } catch (error: any) {
       console.error("Google Auth Error:", error);
       toast.error(
-        error?.response?.data?.message ||
+        error.response?.data?.message ||
           error.message ||
           "Google authentication failed"
       );
