@@ -14,13 +14,22 @@ export default function ViewerPage() {
   const curriculumId = params.get("id");
 
   const [slides, setSlides] = useState<Slide[]>([]);
-  const [user, setUser] = useState("teacher@example.com");
+  const [user, setUser] = useState("");
   const [appName, setAppName] = useState("Super Sheldon Secure Portal");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token") || "demo-token";
+    const token = sessionStorage.getItem("token");
+    const email = sessionStorage.getItem("email");
+
+    if (!token || !email) {
+      router.replace("/login");
+      return;
+    }
+
+    setUser(email);
+
     if (!curriculumId) {
       router.replace("/dashboard/curriculum");
       return;
@@ -34,10 +43,10 @@ export default function ViewerPage() {
         });
 
         if (!res.ok) throw new Error("Unauthorized or invalid token");
+
         const data = await res.json();
-        setSlides(data.slides);
-        setUser(data.user);
-        setAppName(data.appName);
+        setSlides(data.slides || []);
+        setAppName(data.appName || "Super Sheldon Secure Portal");
       } catch (e: any) {
         console.error(e.message);
         setError("Failed to load slides – please login again.");
@@ -45,6 +54,7 @@ export default function ViewerPage() {
         setLoading(false);
       }
     };
+
     loadSlides();
   }, [curriculumId, router]);
 
@@ -65,7 +75,9 @@ export default function ViewerPage() {
   if (!slides.length)
     return (
       <main className="flex flex-col items-center justify-center h-screen text-gray-400 text-center">
-        <p>No slides found for <b>{curriculumId}</b>.</p>
+        <p>
+          No slides found for <b>{curriculumId}</b>.
+        </p>
         <button
           onClick={() => router.replace("/dashboard/curriculum")}
           className="mt-4 px-5 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white font-semibold"
@@ -80,7 +92,10 @@ export default function ViewerPage() {
       slides={slides}
       user={user}
       appName={appName}
-      onLogout={() => router.replace("/")}
+      onLogout={() => {
+        sessionStorage.clear();
+        router.replace("/login");
+      }}
     />
   );
 }
