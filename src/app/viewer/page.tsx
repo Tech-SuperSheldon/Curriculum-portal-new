@@ -34,11 +34,10 @@ export default function ViewerPage() {
       router.replace("/dashboard/curriculum");
       return;
     }
-
     const loadSlides = async () => {
       try {
         const res = await fetch(`/api/slides?curriculum=${curriculumId}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
           cache: "no-store",
         });
 
