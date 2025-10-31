@@ -28,36 +28,39 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      // ✅ This is the Google ID token
       const token = credentialResponse.credential;
       if (!token) throw new Error("No credential returned from Google");
 
-      // Store it for all secure routes (viewer, slides, etc.)
-      localStorage.setItem("token", token);
+      const response = await axiosClient.post(
+        "/auth/google",
+        { token },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-      // Optional: Verify immediately via your backend
-      const verify = await fetch("/api/verify", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const verifyData = await verify.json();
+      if (response.status === 200 && response.data?.user) {
+        const { user, jwt } = response.data;
 
-      if (!verify.ok || !verifyData.valid) {
-        throw new Error("Google verification failed");
+        // ✅ Persist login data
+        localStorage.setItem("token", jwt || token); // fallback to Google token
+        localStorage.setItem("email", user.email);
+        setUser(user);
+
+        console.log("✅ Logged in as:", user.email);
+
+        // Redirect after login
+        if (user.verified) {
+          window.location.href = "/dashboard";
+        } else {
+          window.location.href = `/OTPVerification/${user.email}/${user.firstName}`;
+        }
+      } else {
+        throw new Error("Authentication failed");
       }
-
-      // Save user context
-      setUser({
-        email: verifyData.user,
-        name: verifyData.name || "User",
-      });
-      localStorage.setItem("email", verifyData.user);
-
-      console.log("✅ Verified via Google:", verifyData.user);
-
-      // Redirect user
-      window.location.href = "/dashboard";
     } catch (error: any) {
-      console.error("Google Auth Error:", error);
+      console.error("Google Sign-In error:", error);
       toast.error(
         error.response?.data?.message ||
           error.message ||
