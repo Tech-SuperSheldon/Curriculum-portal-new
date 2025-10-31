@@ -43,14 +43,14 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({
       if (response.status === 200 && response.data?.user) {
         const { user, jwt } = response.data;
 
-        // ✅ Persist login data
-        localStorage.setItem("token", jwt || token); // fallback to Google token
-        localStorage.setItem("email", user.email);
+        // 🧠 Persist token + email for secure routes
+        sessionStorage.setItem("token", jwt || token); // fallback: Google token
+        sessionStorage.setItem("email", user.email);
         setUser(user);
 
-        console.log("✅ Logged in as:", user.email);
+        console.log("✅ Google Auth Success:", user.email);
 
-        // Redirect after login
+        // Redirect based on verification
         if (user.verified) {
           window.location.href = "/dashboard";
         } else {
@@ -60,7 +60,7 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({
         throw new Error("Authentication failed");
       }
     } catch (error: any) {
-      console.error("Google Sign-In error:", error);
+      console.error("Google Auth Error:", error);
       toast.error(
         error.response?.data?.message ||
           error.message ||
