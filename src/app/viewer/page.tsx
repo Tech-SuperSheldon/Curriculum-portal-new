@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Viewer from "@/components/Viewer";
@@ -14,36 +15,31 @@ export default function ViewerPage() {
   const curriculumId = params.get("id");
 
   const [slides, setSlides] = useState<Slide[]>([]);
-  const [user, setUser] = useState("");
   const [appName, setAppName] = useState("Super Sheldon Secure Portal");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    const email = sessionStorage.getItem("email");
-
-    setUser(email);
-
     if (!curriculumId) {
       router.replace("/dashboard/curriculum");
       return;
     }
+
     const loadSlides = async () => {
       try {
+        // ✅ Public API — no token or auth header
         const res = await fetch(`/api/slides?curriculum=${curriculumId}`, {
-          headers: { Authorization: `Bearer ${token}` },
           cache: "no-store",
         });
 
-        if (!res.ok) throw new Error("Unauthorized or invalid token");
+        if (!res.ok) throw new Error("Failed to load slides");
 
         const data = await res.json();
         setSlides(data.slides || []);
         setAppName(data.appName || "Super Sheldon Secure Portal");
       } catch (e: any) {
         console.error(e.message);
-        setError("Failed to load slides – please login again.");
+        setError("Failed to load slides. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -84,12 +80,9 @@ export default function ViewerPage() {
   return (
     <Viewer
       slides={slides}
-      user={user}
+      user="Guest User"
       appName={appName}
-      onLogout={() => {
-        sessionStorage.clear();
-        router.replace("/login");
-      }}
+      onLogout={() => router.replace("/dashboard/curriculum")}
     />
   );
 }
