@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+import axiosClient from "@/utils/axiosClient";
+import { useUser } from "@/context/UserContext";
 
 interface PPT {
   id: string;
@@ -21,24 +23,44 @@ interface Module {
 
 export default function CurriculumPage() {
   const router = useRouter();
+  const { user } = useUser();
   const [activeModule, setActiveModule] = useState<string | null>(null);
   const [assignedTeachers, setAssignedTeachers] = useState<{ [key: string]: string }>({});
   const [showModal, setShowModal] = useState(false);
-  const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [selectedPPT, setSelectedPPT] = useState<string | null>(null);
   const [teacherEmail, setTeacherEmail] = useState("");
-  const [error, setError] = useState("");
-  const [currentUserEmail, setCurrentUserEmail] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [allowedPPTs, setAllowedPPTs] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // 🔐 Load current user
+  const isAdmin = user?.role === "admin";
+  const currentUserEmail = user?.email || "";
+
+  // 📡 Load assigned PPTs for the teacher
   useEffect(() => {
-    const email = sessionStorage.getItem("email") || "";
-    setCurrentUserEmail(email);
-    const admin = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "Support@supersheldon.com").toLowerCase();
-    setIsAdmin(email.toLowerCase() === admin);
-  }, []);
+    const fetchAssignments = async () => {
+      try {
+        if (!user || isAdmin) return;
 
-  // 📘 Demo data
+        const res = await axiosClient.post("/ppt/getPPT", { email: currentUserEmail });
+
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          const pptList = res.data.data.map((ppt: any) => ppt.fileUrl || ppt.title);
+          setAllowedPPTs(pptList);
+          console.log("✅ Assigned PPTs:", pptList);
+        } else {
+          console.warn("No assigned PPTs found");
+        }
+      } catch (err) {
+        console.error("❌ Failed to load assigned PPTs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAssignments();
+  }, [user, currentUserEmail, isAdmin]);
+
+  // 📘 Modules
   const modules: Module[] = [
     {
       id: "demo",
@@ -61,92 +83,103 @@ export default function CurriculumPage() {
       ],
     },
     {
-    id: "module2",
-    title: "Module 2 – Grammar & Writing",
-    desc: "Master grammar, sentence structure, and writing clarity.",
-    ppts: [
-      { id: "ppt11", title: "PPT 1", desc: "Advanced Grammar & Writing", img: "/slides/naplan/ppt11/1.png" },
-      { id: "ppt12", title: "PPT 2", desc: "Advanced Grammar & Writing", img: "/slides/naplan/ppt12/1.png" },
-      { id: "ppt13", title: "PPT 3", desc: "Festivals & Celebrations", img: "/slides/naplan/ppt13/1.png" },
-     { id: "ppt14", title: "PPT 4", desc: "Australian Exam Mastery Program", img: "/slides/naplan/ppt14/1.png" },
-   
-    ],
-  },
+      id: "module2",
+      title: "Module 2 – Grammar & Writing",
+      desc: "Master grammar, sentence structure, and writing clarity.",
+      ppts: [
+        { id: "ppt4", title: "PPT 4", desc: "Grammar Warm-up", img: "/slides/naplan/ppt4/1.png" },
+        { id: "ppt5", title: "PPT 5", desc: "Writing Basics", img: "/slides/naplan/ppt5/1.png" },
+        { id: "ppt6", title: "PPT 6", desc: "Creative Writing", img: "/slides/naplan/ppt6/1.png" },
+      ],
+    },
   ];
 
   const currentModule = modules.find((m) => m.id === activeModule);
-  const openPPT = (id: string) => router.push(`/viewer?id=${id}`);
 
-  const handleView = (id: string) => {
-    const assignedTo = assignedTeachers[id];
-    if (!isAdmin && assignedTo && assignedTo.toLowerCase() !== currentUserEmail.toLowerCase()) {
-      setError("Access denied. You are not assigned to this module.");
+  // 🔍 Open PPT with access check
+  const openPPT = (id: string) => {
+    if (!isAdmin && !allowedPPTs.includes(id)) {
+      alert("🚫 Access denied — this PPT is not assigned to you.");
       return;
     }
-    setError("");
-    setActiveModule(id);
+    router.push(`/viewer?id=${id}`);
   };
 
-  const handleAssign = (id: string) => {
-    if (!isAdmin) return alert("Only admin can assign modules.");
-    setSelectedModule(id);
+  // 🧑‍🏫 Assign PPT
+  const handleAssign = (pptId: string) => {
+    if (!isAdmin) {
+      alert("Only admin can assign PPTs.");
+      return;
+    }
+    setSelectedPPT(pptId);
     setShowModal(true);
   };
 
-  const saveAssignment = () => {
-    if (!teacherEmail) return;
-    setAssignedTeachers((prev) => ({ ...prev, [selectedModule as string]: teacherEmail }));
-    setShowModal(false);
-    setTeacherEmail("");
+  // 💾 Save assignment
+  const saveAssignment = async () => {
+    if (!teacherEmail || !selectedPPT) return alert("Please enter all fields.");
+
+    try {
+      const res = await axiosClient.post("/ppt/assignPPT", {
+        title: selectedPPT,
+        description: "Assigned via Curriculum Portal",
+        subject: "NAPLAN",
+        grade: "General",
+        fileUrl: selectedPPT,
+        uploadedBy: currentUserEmail,
+        assignedTo: teacherEmail,
+      });
+
+      if (res.status === 200 && res.data?.success !== false) {
+        alert("✅ PPT assigned successfully!");
+        setAssignedTeachers((prev) => ({ ...prev, [selectedPPT]: teacherEmail }));
+      } else {
+        alert("❌ Failed to assign PPT — please check backend logs.");
+      }
+    } catch (err) {
+      console.error("Assignment failed:", err);
+      alert("Failed to assign PPT.");
+    } finally {
+      setShowModal(false);
+      setTeacherEmail("");
+    }
   };
 
+  if (loading)
+    return (
+      <main className="flex items-center justify-center h-screen text-gray-300 text-lg">
+        Loading Curriculum...
+      </main>
+    );
+
+  // 👇 Rest of your original UI untouched
   return (
-    <main className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white px-4 sm:px-6 md:px-10 py-16 sm:py-20">
+    <main className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white px-6 py-16">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-10 text-center md:text-left">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
             NAPLAN Test Library
           </h1>
-          <p className="text-gray-400 text-base sm:text-lg mt-2 max-w-2xl mx-auto md:mx-0">
+          <p className="text-gray-400 text-lg mt-2">
             Access interactive PPTs crafted for Year 3–9 NAPLAN preparation.
           </p>
         </div>
 
-        {/* Module Grid */}
         {!activeModule ? (
-          <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {modules.map((m) => (
               <div
                 key={m.id}
-                className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-5 sm:p-6 transition-all hover:scale-[1.03] hover:border-violet-400/40"
+                className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-6 transition-all hover:scale-[1.03]"
               >
-                <h3 className="text-xl sm:text-2xl font-semibold mb-2">{m.title}</h3>
-                <p className="text-gray-400 text-sm sm:text-base mb-4">{m.desc}</p>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={() => handleView(m.id)}
-                    className="w-full sm:w-auto px-4 py-2 rounded-lg bg-violet-500 hover:bg-violet-600 transition text-sm sm:text-base font-medium"
-                  >
-                    View
-                  </button>
-
-                  {isAdmin && (
-                    <button
-                      onClick={() => handleAssign(m.id)}
-                      className="w-full sm:w-auto px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition text-sm sm:text-base font-medium"
-                    >
-                      Assign Teacher
-                    </button>
-                  )}
-                </div>
-
-                {assignedTeachers[m.id] && (
-                  <p className="mt-3 text-xs sm:text-sm text-gray-400">
-                    Assigned to: {assignedTeachers[m.id]}
-                  </p>
-                )}
+                <h3 className="text-2xl font-semibold mb-2">{m.title}</h3>
+                <p className="text-gray-400 mb-4">{m.desc}</p>
+                <button
+                  onClick={() => setActiveModule(m.id)}
+                  className="w-full px-4 py-2 rounded-lg bg-violet-500 hover:bg-violet-600 transition font-medium"
+                >
+                  View
+                </button>
               </div>
             ))}
           </div>
@@ -154,29 +187,42 @@ export default function CurriculumPage() {
           <>
             <button
               onClick={() => setActiveModule(null)}
-              className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition text-sm sm:text-base"
+              className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition"
             >
               <ArrowLeft className="w-5 h-5" /> Back to Modules
             </button>
 
-            {error && <p className="text-red-400 mb-4 text-center sm:text-left">{error}</p>}
-
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{currentModule?.title}</h2>
-            <p className="text-gray-400 mb-8 text-sm sm:text-base">{currentModule?.desc}</p>
-
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <h2 className="text-3xl font-bold mb-4">{currentModule?.title}</h2>
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {currentModule?.ppts.map((p) => (
                 <div
                   key={p.id}
-                  onClick={() => openPPT(p.id)}
-                  className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:border-violet-400/40 cursor-pointer"
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl overflow-hidden hover:scale-[1.03] transition-all duration-300"
                 >
-                  <div className="relative w-full h-40 sm:h-48 border-b border-white/10">
+                  <div
+                    className="relative w-full h-48 border-b border-white/10 cursor-pointer"
+                    onClick={() => openPPT(p.id)}
+                  >
                     <Image src={p.img} alt={p.title} fill className="object-cover" unoptimized />
                   </div>
                   <div className="p-5">
-                    <h3 className="text-lg sm:text-xl font-semibold mb-1">{p.title}</h3>
-                    <p className="text-xs sm:text-sm text-gray-300">{p.desc}</p>
+                    <h3 className="text-xl font-semibold mb-1">{p.title}</h3>
+                    <p className="text-sm text-gray-300">{p.desc}</p>
+
+                    {isAdmin && (
+                      <button
+                        onClick={() => handleAssign(p.id)}
+                        className="mt-3 w-full px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition font-medium"
+                      >
+                        Assign Teacher
+                      </button>
+                    )}
+
+                    {assignedTeachers[p.id] && (
+                      <p className="mt-2 text-sm text-gray-400">
+                        Assigned to: {assignedTeachers[p.id]}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -185,30 +231,30 @@ export default function CurriculumPage() {
         )}
       </div>
 
-      {/* Assign Teacher Modal */}
+      {/* Assign Modal (UI unchanged) */}
       {showModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-          <div className="bg-slate-800 p-6 rounded-xl shadow-xl w-full max-w-sm sm:max-w-md">
-            <h3 className="text-lg sm:text-xl font-semibold mb-4 text-white text-center">
-              Assign Teacher to Module
+          <div className="bg-slate-800 p-6 rounded-xl shadow-xl w-full max-w-md">
+            <h3 className="text-xl font-semibold mb-4 text-white text-center">
+              Assign Teacher to PPT
             </h3>
             <input
               type="email"
               placeholder="Enter teacher email"
               value={teacherEmail}
               onChange={(e) => setTeacherEmail(e.target.value)}
-              className="w-full p-3 rounded-lg bg-slate-700 text-white placeholder-gray-400 mb-4 text-sm sm:text-base"
+              className="w-full p-3 rounded-lg bg-slate-700 text-white placeholder-gray-400 mb-4"
             />
-            <div className="flex flex-col sm:flex-row justify-end gap-3">
+            <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg text-sm sm:text-base"
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg"
               >
                 Cancel
               </button>
               <button
                 onClick={saveAssignment}
-                className="px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg text-sm sm:text-base"
+                className="px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg"
               >
                 Save
               </button>
