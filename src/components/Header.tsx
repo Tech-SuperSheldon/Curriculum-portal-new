@@ -11,13 +11,26 @@ export default function Header() {
   const router = useRouter();
   const {user , logout} = useUser() ;
 
-  // 🧠 Handle Logout
-  const handleLogout = (): void => {
-    if (typeof window !== "undefined") {
-      sessionStorage.clear(); // Clear stored session
-    }
-    router.push("/"); // Redirect to login/home
-  };
+  
+  // Handle Logout
+const handleLogout = (): void => {
+  if (typeof window !== "undefined") {
+    // Clear ALL possible auth data
+    sessionStorage.clear();
+    localStorage.removeItem("user");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
+  }
+
+  // Clear user in context too (important!)
+  logout();
+
+  // Small delay ensures context clears before redirect
+  setTimeout(() => {
+    router.push("/login"); // go to login page
+  }, 100);
+};
+
 
   // 🧭 Navigate helper
   const navigate = (path: string): void => {
