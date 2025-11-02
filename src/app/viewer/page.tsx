@@ -14,8 +14,6 @@ export default function ViewerPage() {
   const params = useSearchParams();
   const curriculumId = params.get("id");
 
-  console.log(curriculumId);
-
   const [slides, setSlides] = useState<Slide[]>([]);
   const [appName, setAppName] = useState("Super Sheldon Secure Portal");
   const [loading, setLoading] = useState(true);
