@@ -12,17 +12,17 @@ export default function ClientLayoutWrapper({
   const pathname = usePathname();
   const isViewer = pathname?.startsWith("/viewer");
 
-  // Viewer pages (no Google provider)
-  if (isViewer) {
-    return <UserProvider>{children}</UserProvider>;
-  }
-
-  // All other pages (with Google provider)
   return (
-    <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
-    >
-      <UserProvider>{children}</UserProvider>
-    </GoogleOAuthProvider>
+    <UserProvider>
+      {isViewer ? (
+        children
+      ) : (
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
+        >
+          {children}
+        </GoogleOAuthProvider>
+      )}
+    </UserProvider>
   );
 }
