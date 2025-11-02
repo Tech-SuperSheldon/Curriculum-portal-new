@@ -1,9 +1,9 @@
 import "./globals.css";
-import { UserProvider } from "@/context/UserContext";
+import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 
 export const metadata = {
-  title: "Secure Portal",
-  description: "Encrypted Slide Viewer",
+  title: "Super Sheldon",
+  description: "Super Sheldon Secure Portal",
 };
 
 export default function RootLayout({
@@ -13,10 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-        <UserProvider>
-          {children}
-        </UserProvider>
+      <body>
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>
   );
