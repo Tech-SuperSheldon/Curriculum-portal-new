@@ -2,10 +2,28 @@
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { formatDate } from "../../../utils/formatDate";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const { user: googleUser, logout } = useUser();
+  const router = useRouter();
   console.log(googleUser);
+
+  // 🧭 Same logout logic as Header
+  const handleLogout = (): void => {
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+      localStorage.removeItem("user");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userRole");
+    }
+
+    logout();
+
+    setTimeout(() => {
+      router.push("/login");
+    }, 100);
+  };
 
   if (!googleUser) {
     return (
@@ -60,10 +78,11 @@ export default function ProfilePage() {
               </p>
             )}
 
-            {/* Edit Button (styled beautifully but same placement) */}
-            <button className="mt-6 bg-gradient-to-r from-rose-500 to-red-600 px-5 py-2.5 rounded-lg font-semibold text-white shadow-md hover:shadow-rose-600/40 transition-all duration-300"
-               onClick={logout}>
-             
+            {/* 🔒 Logout Button (same as header behaviour) */}
+            <button
+              onClick={handleLogout}
+              className="mt-6 bg-gradient-to-r from-rose-500 to-red-600 px-5 py-2.5 rounded-lg font-semibold text-white shadow-md hover:shadow-rose-600/40 transition-all duration-300"
+            >
               Logout
             </button>
           </div>
@@ -72,4 +91,3 @@ export default function ProfilePage() {
     </main>
   );
 }
-
