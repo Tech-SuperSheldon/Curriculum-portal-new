@@ -61,8 +61,10 @@ export default function ProfilePage() {
             )}
 
             {/* Edit Button (styled beautifully but same placement) */}
-            <button className="mt-4 bg-gradient-to-r from-cyan-400 to-violet-500 px-6 py-2.5 rounded-lg text-white font-semibold shadow-lg hover:shadow-[0_0_20px_rgba(56,189,248,0.6)] transition-all duration-500">
-              Edit Profile
+            <button className="mt-6 bg-gradient-to-r from-rose-500 to-red-600 px-5 py-2.5 rounded-lg font-semibold text-white shadow-md hover:shadow-rose-600/40 transition-all duration-300"
+               onClick={logout}>
+             
+              Logout
             </button>
           </div>
         </div>
