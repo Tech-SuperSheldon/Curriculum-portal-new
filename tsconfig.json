@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    /* Core ECMAScript Settings */
+    "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    /* TypeScript Behavior */
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    /* Module System */
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    /* Build & Performance */
+    "incremental": true,
+    /* Next.js Plugin */
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    /* Aliases for Cleaner Imports */
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "allowJs": true
+  },
+  /* Included File Types */
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  /* Excluded Folders */
+  "exclude": [
+    "node_modules"
+  ]
+}
