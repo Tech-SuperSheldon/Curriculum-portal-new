@@ -20,14 +20,11 @@ export default function ProfilePage() {
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white px-6 py-20 flex justify-center">
       <div className="max-w-3xl w-full text-center sm:text-left">
         {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-500 bg-clip-text text-transparent drop-shadow-md">
-            Your Profile
-          </h1>
-          <p className="text-gray-400 mt-3 text-lg tracking-wide">
-            Welcome back, {googleUser.firstName}! Here’s your account summary.
-          </p>
-        </div>
+     <div className="max-w-3xl w-full">
+       <div className="mb-10">
+         <h1 className="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent"> Your Profile </h1>
+         <p className="text-gray-400 mt-2 text-lg"> Manage your personal details and account info. </p> 
+       </div>
 
         {/* Profile Card */}
         <div className="relative group bg-white/10 border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl hover:scale-[1.02] transition-transform duration-500">
