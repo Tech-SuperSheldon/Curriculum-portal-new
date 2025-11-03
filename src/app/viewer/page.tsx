@@ -14,10 +14,15 @@ export default function ViewerPage() {
   const params = useSearchParams();
   const curriculumId = params.get("id");
 
+  console.log(curriculumId);
+
   const [slides, setSlides] = useState<Slide[]>([]);
   const [appName, setAppName] = useState("Super Sheldon Secure Portal");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
+
+   console.log("hello bhai");
 
   useEffect(() => {
     if (!curriculumId) {
@@ -25,13 +30,21 @@ export default function ViewerPage() {
       return;
     }
 
+
+
     const loadSlides = async () => {
+      
+      
+     
       try {
         // ✅ Public API — no token or auth header
         const res = await fetch(`/api/slides?curriculum=${curriculumId}`, {
           cache: "no-store",
+        
         });
 
+        
+      
         if (!res.ok) throw new Error("Failed to load slides");
 
         const data = await res.json();
