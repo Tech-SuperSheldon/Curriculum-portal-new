@@ -38,7 +38,7 @@ export default function ProfilePage() {
                 alt={googleUser?.firstName}
                 width={128}
                 height={128}
-                className="object-cover scale-105 hover:scale-110 transition-transform duration-500"
+                className="object-cover"
               />
             ) : (
               "login"
