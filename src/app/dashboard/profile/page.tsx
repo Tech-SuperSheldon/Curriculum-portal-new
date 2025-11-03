@@ -1,18 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { formatDate } from "../../../utils/formatDate";
 
 export default function ProfilePage() {
   const { user: googleUser, logout } = useUser();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: googleUser?.firstName || "",
-    email: googleUser?.email || "",
-    role: googleUser?.role || "",
-  });
+  console.log(googleUser);
 
   if (!googleUser) {
     return (
@@ -22,105 +16,63 @@ export default function ProfilePage() {
     );
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = async () => {
-    // In future: POST or PATCH to /api/users/update
-    console.log("Updated data:", formData);
-    setIsEditing(false);
-  };
-
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white px-6 py-20 flex justify-center">
-      <div className="max-w-3xl w-full">
+      <div className="max-w-3xl w-full text-center sm:text-left">
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
+        <div className="mb-12 text-center">
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-500 bg-clip-text text-transparent drop-shadow-md">
             Your Profile
           </h1>
-          <p className="text-gray-400 mt-2 text-lg">
-            Manage your personal details and account info.
+          <p className="text-gray-400 mt-3 text-lg tracking-wide">
+            Welcome back, {googleUser.firstName}! Here’s your account summary.
           </p>
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white/10 border border-white/10 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-lg hover:shadow-violet-600/20 transition-all duration-300">
-          <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-violet-500/50 shadow-md">
-            <Image
-              src={googleUser?.picture}
-              alt={googleUser?.firstName || "User"}
-              width={112}
-              height={112}
-            />
-          </div>
+        <div className="relative group bg-white/10 border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl hover:scale-[1.02] transition-transform duration-500">
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-500/10 to-violet-600/10 blur-xl opacity-60 group-hover:opacity-80 transition" />
 
-          {/* Info Section */}
-          <div className="flex flex-col gap-2 text-center sm:text-left w-full">
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-white"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  
-                  className="bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-white"
-                />
-                <input
-                  type="text"
-                  name="role"
-                  value={formData.role}
-                  className="bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-white"
-                />
-                <div className="flex gap-3 mt-3">
-                  <button
-                    onClick={handleSave}
-                    className="bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="bg-slate-700 px-4 py-2 rounded-lg hover:bg-slate-600 transition"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="text-2xl font-semibold">{googleUser?.firstName}</h2>
-                <p className="text-violet-400">{googleUser?.role}</p>
-                <p className="text-gray-300">{googleUser?.email}</p>
-                {googleUser.createdAt && (
-                  <p><strong>Joined:</strong> {formatDate(googleUser.createdAt)}</p>
-                )}
-                <div className="flex gap-3 mt-3">
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 rounded-lg text-white font-semibold hover:shadow-lg transition"
-                  >
-                    Edit Profile
-                  </button>
-                  <button
-                    onClick={logout}
-                    className="bg-red-500/80 px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </>
-            )}
+          <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-8">
+            {/* Profile Image */}
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-cyan-400/60 shadow-lg shadow-violet-600/30">
+              <Image
+                src={googleUser?.picture}
+                alt={googleUser?.firstName || "User"}
+                width={128}
+                height={128}
+                className="object-cover"
+              />
+            </div>
+
+            {/* Info Section */}
+            <div className="flex flex-col gap-3">
+              <h2 className="text-3xl font-semibold tracking-tight bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
+                {googleUser?.firstName}
+              </h2>
+              <p className="text-violet-300 text-lg">{googleUser?.role}</p>
+              <p className="text-gray-300 text-base">{googleUser?.email}</p>
+
+              {googleUser.createdAt && (
+                <p className="text-sm text-gray-400 mt-1">
+                  <span className="font-medium text-gray-200">Joined:</span>{" "}
+                  {formatDate(googleUser.createdAt)}
+                </p>
+              )}
+
+              <button
+                onClick={logout}
+                className="mt-5 self-center sm:self-start bg-gradient-to-r from-rose-500 to-red-600 px-5 py-2.5 rounded-lg font-semibold text-white shadow-md hover:shadow-rose-600/40 transition-all duration-300"
+              >
+                Logout
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-12 text-gray-500 text-sm text-center sm:text-left">
+          Super Sheldon © {new Date().getFullYear()} | Secure access enabled 🔒
         </div>
       </div>
     </main>
