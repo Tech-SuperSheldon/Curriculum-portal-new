@@ -72,14 +72,13 @@ export default function ProfilePage() {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleChange}
+                  
                   className="bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-white"
                 />
                 <input
                   type="text"
                   name="role"
                   value={formData.role}
-                  onChange={handleChange}
                   className="bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-white"
                 />
                 <div className="flex gap-3 mt-3">
