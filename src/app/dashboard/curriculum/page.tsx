@@ -74,12 +74,21 @@ export default function CurriculumPage() {
     },
     {
       id: "module1",
-      title: "Module 1 – Reading & Comprehension",
-      desc: "Build strong reading and comprehension skills for NAPLAN success.",
+      title: "Module 1 – Naplan",
+      desc: "Naplan modules from session 1 through 10.",
       ppts: [
         { id: "ppt1", title: "PPT 1", desc: "Reading Basics", img: "/slides/naplan/ppt1/1.png" },
         { id: "ppt2", title: "PPT 2", desc: "Comprehension Practice", img: "/slides/naplan/ppt2/1.png" },
         { id: "ppt3", title: "PPT 3", desc: "Story Analysis", img: "/slides/naplan/ppt3/1.png" },
+        { id: "ppt4", title: "PPT 4", desc: "Analyzing the Story", img: "/slides/naplan/ppt4/1.png" },
+{ id: "ppt5", title: "PPT 5", desc: "Story Breakdown", img: "/slides/naplan/ppt5/1.png" },
+{ id: "ppt6", title: "PPT 6", desc: "Understanding the Narrative", img: "/slides/naplan/ppt6/1.png" },
+{ id: "ppt7", title: "PPT 7", desc: "Exploring the Story", img: "/slides/naplan/ppt7/1.png" },
+{ id: "ppt8", title: "PPT 8", desc: "Story Structure Analysis", img: "/slides/naplan/ppt8/1.png" },
+{ id: "ppt9", title: "PPT 9", desc: "Dissecting the Plot", img: "/slides/naplan/ppt9/1.png" },
+{ id: "ppt10", title: "PPT 10", desc: "Narrative Exploration", img: "/slides/naplan/ppt10/1.png" }
+
+
       ],
     },
     {
