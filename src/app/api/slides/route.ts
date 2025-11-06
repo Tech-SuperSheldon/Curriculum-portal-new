@@ -303,6 +303,181 @@ export async function GET(req: NextRequest) {
     }
 
 
+
+
+
+
+
+    
+    /** 🧩 PPT 11 — Reading Practice */
+else if (curriculum === "ppt11") {
+  slides = Array.from({ length: 56 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt11/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 18, url: "https://wordwall.net/embed/2b751ded65b74c32bfa257d8ce90ebbf" },
+    { index: 44, url: "https://wordwall.net/embed/271d3bfb383246f0baba01f2ea49cf15" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 12 — Reading Practice */
+else if (curriculum === "ppt12") {
+  slides = Array.from({ length: 46 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt12/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 14, url: "https://wordwall.net/embed/b091ab6369dd49c296416c528f5aaba1" },
+    { index: 19, url: "https://wordwall.net/embed/772e782f7f0a46bc9e9a51e6a79eace2" },
+    { index: 22, url: "https://wordwall.net/embed/90f3e3c4b70a426bb1d9ae195b20c648" },
+    { index: 26, url: "https://wordwall.net/embed/eee062a6fa074955ad306a74ff05db23" },
+    { index: 28, url: "https://wordwall.net/embed/808c40bb8f1f400c907c498738f5a75b" },
+    { index: 36, url: "https://wordwall.net/embed/bafb86ff4e774110ac51f161539257b0" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 13 — Reading Practice */
+else if (curriculum === "ppt13") {
+  slides = Array.from({ length: 58 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt13/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 16, url: "https://wordwall.net/embed/1e9cbf37578841598721f0d380577ff9" },
+    { index: 21, url: "https://wordwall.net/embed/4504acb816224121ac6a4694ea7fe0f1" },
+    { index: 38, url: "https://wordwall.net/embed/0a074fe4907941f99f28761f6dea0867" },
+    { index: 48, url: "https://wordwall.net/embed/615abe42b7874cce995c3e678378e63d" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 14 — Reading Practice */
+else if (curriculum === "ppt14") {
+  slides = Array.from({ length: 46 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt14/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 14, url: "https://wordwall.net/embed/91d552b50bbc41ffa8875335fe11c34c" },
+    { index: 18, url: "https://wordwall.net/embed/1ddfb583ed294330b02735721339caf6" },
+    { index: 21, url: "https://wordwall.net/embed/ba3ba32ad30f4c8199ac9d33e16dbd9f" },
+    { index: 24, url: "https://wordwall.net/embed/ba3ba32ad30f4c8199ac9d33e16dbd9f" },
+    { index: 26, url: "https://wordwall.net/embed/b62b4258424048ff8f9f1e0e288bfdb1" },
+    { index: 34, url: "https://wordwall.net/embed/ca4f56bb06c74df884532a77e2bd8cab" },
+    { index: 37, url: "https://www.youtube.com/embed/aUpiy67_nt4"},
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 15 — Reading Practice */
+else if (curriculum === "ppt15") {
+  slides = Array.from({ length: 33 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt15/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 8, url: "https://wordwall.net/embed/a370d387f9464cd1a4bbff690afdafc5" },
+    { index: 12, url: "https://wordwall.net/embed/b9bfba3b48c64fd8973579c296c4df2d" },
+    { index: 15, url: "https://wordwall.net/embed/8b887885d7da418982489058d2db6ad3" },
+    { index: 18, url: "https://wordwall.net/embed/c34d32abab5847b3ad01828e061af19a" },
+    { index: 20, url: "https://wordwall.net/embed/df298110372f4a109382b90e649c19cf" },
+    { index: 27, url: "https://wordwall.net/embed/1d6aec1d8112442d9b61382f79a53830" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 16 — Reading Practice */
+else if (curriculum === "ppt16") {
+  slides = Array.from({ length: 42 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt16/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 14, url: "https://wordwall.net/embed/c3655500eaff404994a1fe779ba14148" },
+    { index: 19, url: "https://wordwall.net/embed/9c8fec13efdb4aea8fcc21c20c5cbcf1" },
+    { index: 22, url: "https://wordwall.net/embed/4b2cc38090474c1a8cd7d2f38c69c0cb" },
+    { index: 25, url: "https://wordwall.net/embed/816c33610618415bad9d537e91517c95" },
+    { index: 27, url: "https://wordwall.net/embed/dee0f200459b4a05a8d613612a2e605e" },
+    { index: 35, url: "https://wordwall.net/embed/84322bd7d504465c86e3b5481803980b" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 17 — Reading Practice */
+else if (curriculum === "ppt17") {
+  slides = Array.from({ length: 39 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt17/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 8, url: "https://wordwall.net/embed/c01f5624367d47fdaa493b0fc9224b42" },
+    { index: 11, url: "https://wordwall.net/embed/0e01a2a700034908acace6c139c19278" },
+    { index: 15, url: "https://wordwall.net/embed/37a22378e8544a5e8c7c7c2dbc7ef4ab" },
+    { index: 18, url: "https://wordwall.net/embed/563c7a87ef7046be8a4f6496fd89bc76" },
+    { index: 20, url: "https://wordwall.net/embed/30eba41b3be74a24a7d7f0a7086cbde7" },
+    { index: 29, url: "https://www.youtube.com/embed/aUpiy67_nt4" },
+    { index: 37, url: "https://wordwall.net/embed/ef2da3892cb244eeb60ba77aece960b9" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 18 — Reading Practice */
+else if (curriculum === "ppt18") {
+  slides = Array.from({ length: 43 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt18/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 14, url: "https://wordwall.net/embed/606667dc4e3c49c7b35a672a1214ed18" },
+    { index: 17, url: "https://wordwall.net/embed/4371fe531bfb4551815df85fb9b9c5ae" },
+
+    { index: 21, url: "https://wordwall.net/embed/e2f2bf6ca74945d99578b45a9fe9b5f8" },
+
+    { index: 24, url: "https://wordwall.net/embed/c7139f1e952b4551a39da8671dff1917" },
+    { index: 26, url: "https://wordwall.net/embed/ad83eb3b86a549a89bb47bf46698ec92" },
+    { index: 41, url: "https://wordwall.net/embed/ad83eb3b86a549a89bb47bf46698ec92" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 19 — Reading Practice */
+else if (curriculum === "ppt19") {
+  slides = Array.from({ length: 42 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt19/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 14, url: "https://wordwall.net/embed/60b4ae640e1c46138f7208071db20c89" },
+    { index: 16, url: "https://wordwall.net/embed/f0db2fed55fc4cc7b247d5067b9c25d6" },
+    { index: 20, url: "https://wordwall.net/embed/fa7006ab222e404cb151fc40418044bf" },
+    { index: 23, url: "https://wordwall.net/embed/07d0e6951b69487eb9b338b8f07b0649" },
+    { index: 25, url: "https://wordwall.net/embed/94e2da279de0450cac247c284a177cb5" },
+    { index: 39, url: "https://wordwall.net/embed/3cf7955c684b49e2aa4c46b0b5a1e1d2" },
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+/** 🧩 PPT 20 — Reading Practice */
+else if (curriculum === "ppt20") {
+  slides = Array.from({ length: 96 }, (_, i) => ({
+    type: "image" as const,
+    url: `/slides/naplan/ppt20/${i + 1}.png`,
+  }));
+  const wordwallEmbeds = [
+    { index: 5, url: "https://wordwall.net/embed/64e3b8a68c784803be750c01f9986cca" },
+   
+  ];
+  wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
+}
+
+
+
+
+
+
     /** 🧩 Fallback */
     else {
       slides = [{ type: "image", url: "/slides/notfound.png" }];
