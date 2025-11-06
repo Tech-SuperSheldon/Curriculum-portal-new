@@ -81,24 +81,34 @@ export default function CurriculumPage() {
         { id: "ppt2", title: "PPT 2", desc: "Comprehension Practice", img: "/slides/naplan/ppt2/1.png" },
         { id: "ppt3", title: "PPT 3", desc: "Story Analysis", img: "/slides/naplan/ppt3/1.png" },
         { id: "ppt4", title: "PPT 4", desc: "Analyzing the Story", img: "/slides/naplan/ppt4/1.png" },
-{ id: "ppt5", title: "PPT 5", desc: "Story Breakdown", img: "/slides/naplan/ppt5/1.png" },
-{ id: "ppt6", title: "PPT 6", desc: "Understanding the Narrative", img: "/slides/naplan/ppt6/1.png" },
-{ id: "ppt7", title: "PPT 7", desc: "Exploring the Story", img: "/slides/naplan/ppt7/1.png" },
-{ id: "ppt8", title: "PPT 8", desc: "Story Structure Analysis", img: "/slides/naplan/ppt8/1.png" },
-{ id: "ppt9", title: "PPT 9", desc: "Dissecting the Plot", img: "/slides/naplan/ppt9/1.png" },
-{ id: "ppt10", title: "PPT 10", desc: "Narrative Exploration", img: "/slides/naplan/ppt10/1.png" }
+        { id: "ppt5", title: "PPT 5", desc: "Story Breakdown", img: "/slides/naplan/ppt5/1.png" },
+        { id: "ppt6", title: "PPT 6", desc: "Understanding the Narrative", img: "/slides/naplan/ppt6/1.png" },
+        { id: "ppt7", title: "PPT 7", desc: "Exploring the Story", img: "/slides/naplan/ppt7/1.png" },
+        { id: "ppt8", title: "PPT 8", desc: "Story Structure Analysis", img: "/slides/naplan/ppt8/1.png" },
+        { id: "ppt9", title: "PPT 9", desc: "Dissecting the Plot", img: "/slides/naplan/ppt9/1.png" },
+        { id: "ppt10", title: "PPT 10", desc: "Narrative Exploration", img: "/slides/naplan/ppt10/1.png" }
 
 
       ],
     },
     {
       id: "module2",
-      title: "Module 2 – Grammar & Writing",
+      title: "Module 2 – Naplan",
       desc: "Master grammar, sentence structure, and writing clarity.",
       ppts: [
-        { id: "ppt4", title: "PPT 4", desc: "Grammar Warm-up", img: "/slides/naplan/ppt4/1.png" },
-        { id: "ppt5", title: "PPT 5", desc: "Writing Basics", img: "/slides/naplan/ppt5/1.png" },
-        { id: "ppt6", title: "PPT 6", desc: "Creative Writing", img: "/slides/naplan/ppt6/1.png" },
+
+        
+        { id: "ppt11", title: "PPT 11", desc: "Grammar Essentials", img: "/slides/naplan/ppt11/1.png" },
+        { id: "ppt12", title: "PPT 12", desc: "Sentence Structure", img: "/slides/naplan/ppt12/1.png" },
+        { id: "ppt13", title: "PPT 13", desc: "Writing Clarity", img: "/slides/naplan/ppt13/1.png" },
+        { id: "ppt14", title: "PPT 14", desc: "Effective Writing", img: "/slides/naplan/ppt14/1.png" },
+        { id: "ppt15", title: "PPT 15", desc: "Grammar Practice", img: "/slides/naplan/ppt15/1.png" },
+        { id: "ppt16", title: "PPT 16", desc: "Sentence Skills", img: "/slides/naplan/ppt16/1.png" },
+        { id: "ppt17", title: "PPT 17", desc: "Writing Techniques", img: "/slides/naplan/ppt17/1.png" },
+        { id: "ppt18", title: "PPT 18", desc: "Grammar Deep Dive", img: "/slides/naplan/ppt18/1.png" },
+        { id: "ppt19", title: "PPT 19", desc: "Advanced Writing", img: "/slides/naplan/ppt19/1.png" },
+        { id: "ppt20", title: "PPT 20", desc: "Writing Mastery", img: "/slides/naplan/ppt20/1.png" }
+
       ],
     },
   ];
