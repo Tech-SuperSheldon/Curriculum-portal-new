@@ -78,10 +78,8 @@ else if (curriculum === "y7mod1-ppt1") {
     url: `/slides/${setFolder}/ppt1/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 4, url: "https://wordwall.net/embed/placeholder1" },
-    { index: 13, url: "https://wordwall.net/embed/placeholder2" },
-
-
+    { index: 4, url: "https://wordwall.net/embed/fcf6987f334e4b8eb51bf2e2b7c3e6d1" },
+    { index: 13, url: "https://wordwall.net/embed/e24c10d556ca43358e1b4bb687ea51b4" },
 
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
@@ -93,9 +91,8 @@ else if (curriculum === "y7mod1-ppt2") {
     url: `/slides/${setFolder}/ppt2/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 7, url: "https://wordwall.net/embed/placeholder6" },
-    { index: 12, url: "https://wordwall.net/embed/placeholder7" },
-
+    { index: 7, url: "https://wordwall.net/embed/e24c10d556ca43358e1b4bb687ea51b4" },
+    { index: 12, url: "https://wordwall.net/embed/710caecaa87c4f17acb4613165d01b7a" },
 
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
@@ -107,11 +104,11 @@ else if (curriculum === "y7mod1-ppt3") {
     url: `/slides/${setFolder}/ppt3/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 4, url: "https://wordwall.net/embed/placeholder11" },
-    { index: 11, url: "https://wordwall.net/embed/placeholder12" },
-    { index: 14, url: "https://wordwall.net/embed/placeholder13" },
-    { index: 16, url: "https://wordwall.net/embed/placeholder14" },
-    { index: 37, url: "https://wordwall.net/embed/placeholder15" },
+    { index: 4, url: "https://wordwall.net/embed/613aaaaf432f4f33a16269c427a72ac3" },
+    { index: 11, url: "https://wordwall.net/embed/0892bc1f39f047e489cff61c4b877683" },
+    { index: 14, url: "https://wordwall.net/embed/9f780d8d50c54205b800707f7a71c942" },
+    { index: 16, url: "https://wordwall.net/embed/9c2d1b6ebac649adb0f2954a4915bd47" },
+    { index: 37, url: "https://www.youtube.com/embed/aUpiy67_nt4" },
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
 }
@@ -122,12 +119,12 @@ else if (curriculum === "y7mod1-ppt4") {
     url: `/slides/${setFolder}/ppt4/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 4, url: "https://wordwall.net/embed/placeholder16" },
-    { index: 8, url: "https://wordwall.net/embed/placeholder17" },
-    { index: 12, url: "https://wordwall.net/embed/placeholder18" },
-    { index: 15, url: "https://wordwall.net/embed/placeholder19" },
-    { index: 17, url: "https://wordwall.net/embed/placeholder20" },
-    { index: 41, url: "https://wordwall.net/embed/placeholder20" },
+    { index: 4, url: "https://wordwall.net/embed/93995a3828694dfa95a6b2ecc2f75206" },
+    { index: 8, url: "https://wordwall.net/embed/0892bc1f39f047e489cff61c4b877683" },
+    { index: 12, url: "https://wordwall.net/embed/a370d387f9464cd1a4bbff690afdafc5" },
+    { index: 15, url: "https://wordwall.net/embed/21f44ed28c174ff699df6b329652d3b0" },
+    { index: 17, url: "https://wordwall.net/embed/0d1a8d8136c34f63b3801397e4685c92" },
+    { index: 40, url: "https://www.youtube.com/embed/aUpiy67_nt4" },
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
 }
@@ -138,7 +135,7 @@ else if (curriculum === "y7mod1-ppt5") {
     url: `/slides/${setFolder}/ppt5/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 12, url: "https://wordwall.net/embed/placeholder21" },
+    { index: 12, url: "https://wordwall.net/embed/b27c5b068de64893829d48de862024e4" },
 
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
@@ -150,7 +147,7 @@ else if (curriculum === "y7mod1-ppt6") {
     url: `/slides/${setFolder}/ppt6/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 6, url: "https://wordwall.net/embed/placeholder26" },
+    { index: 13, url: "" },
 
 
   ];
@@ -163,9 +160,9 @@ else if (curriculum === "y7mod1-ppt7") {
     url: `/slides/${setFolder}/ppt7/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 3, url: "https://wordwall.net/embed/placeholder31" },
-    { index: 7, url: "https://wordwall.net/embed/placeholder32" },
-    { index: 14, url: "https://wordwall.net/embed/placeholder33" },
+    { index: 3, url: "https://wordwall.net/embed/2aec241b44944dfeb1949a6709e7ad54" },
+    { index: 7, url: "https://wordwall.net/embed/71c61fcb505b41c4b6992213dd26e5ac" },
+    { index: 14, url: "https://wordwall.net/embed/b27c5b068de64893829d48de862024e4" },
 
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
@@ -177,12 +174,21 @@ else if (curriculum === "y7mod1-ppt8") {
     url: `/slides/${setFolder}/ppt8/${i + 1}.png`,
   }));
   const wordwallEmbeds = [
-    { index: 7, url: "https://wordwall.net/embed/placeholder36" },
-    { index: 12, url: "https://wordwall.net/embed/placeholder37" },
+    { index: 7, url: "https://wordwall.net/embed/2314b4b0d63047d69c5da955592c0c11" },
+    { index: 12, url: "https://wordwall.net/embed/6e8c419228564686ad9ca826000d91ff" },
 
   ];
   wordwallEmbeds.forEach(({ index, url }) => (slides[index] = { type: "embed", url }));
 }
+
+
+
+
+
+
+
+
+
 
 /** 🧩 UK Module 1 — PPTs 1..26 (each: 40 images + 5 Wordwall embeds) */
 else if (curriculum === "ukmod1-ppt1") {
