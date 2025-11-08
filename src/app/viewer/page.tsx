@@ -18,6 +18,7 @@ export default function ViewerPage() {
 
   const [slides, setSlides] = useState<Slide[]>([]);
   const [appName, setAppName] = useState("Super Sheldon Secure Portal");
+  const [set, setSet] = useState("naplan");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   
@@ -38,18 +39,18 @@ export default function ViewerPage() {
      
       try {
         // ✅ Public API — no token or auth header
-        const res = await fetch(`/api/slides?curriculum=${curriculumId}`, {
+        // Get both curriculum ID and set from URL params
+        const set = params.get("set") || "naplan";
+        const res = await fetch(`/api/slides?curriculum=${curriculumId}&set=${set}`, {
           cache: "no-store",
-        
         });
 
-        
-      
         if (!res.ok) throw new Error("Failed to load slides");
 
         const data = await res.json();
         setSlides(data.slides || []);
         setAppName(data.appName || "Super Sheldon Secure Portal");
+        setSet(data.set || "naplan");
       } catch (e: any) {
         console.error(e.message);
         setError("Failed to load slides. Please try again later.");
@@ -95,6 +96,7 @@ export default function ViewerPage() {
       slides={slides}
       user="Guest User"
       appName={appName}
+      set={set}
       onLogout={() => router.replace("/dashboard/curriculum")}
     />
   );

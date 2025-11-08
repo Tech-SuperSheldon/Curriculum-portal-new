@@ -65,11 +65,59 @@ export default function CurriculumPage() {
     {
       id: "demo",
       title: "Demo Module – Sample Lessons",
-      desc: "Preview 3 demo lessons showcasing Super Sheldon’s interactive learning style.",
+      desc: "Preview 3 demo lessons showcasing Super Sheldon's interactive learning style.",
       ppts: [
         { id: "demo1", title: "Demo PPT 1", desc: "Introduction to Learning", img: "/slides/demo/demo1/1.png" },
         { id: "demo2", title: "Demo PPT 2", desc: "Interactive Concepts", img: "/slides/demo/demo2/1.png" },
         { id: "demo3", title: "Demo PPT 3", desc: "Fun Practice Session", img: "/slides/demo/demo3/1.png" },
+      ],
+    },
+    {
+      id: "ukmod1",
+      title: "UK Module 1",
+      desc: "UK Module — comprehensive set of 26 PPTs.",
+      ppts: [
+        { id: "ukmod1-ppt1", title: "PPT 1", desc: "UK Module — Lesson 1", img: "/slides/ukmod1/ppt1/1.png" },
+        { id: "ukmod1-ppt2", title: "PPT 2", desc: "UK Module — Lesson 2", img: "/slides/ukmod1/ppt2/1.png" },
+        { id: "ukmod1-ppt3", title: "PPT 3", desc: "UK Module — Lesson 3", img: "/slides/ukmod1/ppt3/1.png" },
+        { id: "ukmod1-ppt4", title: "PPT 4", desc: "UK Module — Lesson 4", img: "/slides/ukmod1/ppt4/1.png" },
+        { id: "ukmod1-ppt5", title: "PPT 5", desc: "UK Module — Lesson 5", img: "/slides/ukmod1/ppt5/1.png" },
+        { id: "ukmod1-ppt6", title: "PPT 6", desc: "UK Module — Lesson 6", img: "/slides/ukmod1/ppt6/1.png" },
+        { id: "ukmod1-ppt7", title: "PPT 7", desc: "UK Module — Lesson 7", img: "/slides/ukmod1/ppt7/1.png" },
+        { id: "ukmod1-ppt8", title: "PPT 8", desc: "UK Module — Lesson 8", img: "/slides/ukmod1/ppt8/1.png" },
+        { id: "ukmod1-ppt9", title: "PPT 9", desc: "UK Module — Lesson 9", img: "/slides/ukmod1/ppt9/1.png" },
+        { id: "ukmod1-ppt10", title: "PPT 10", desc: "UK Module — Lesson 10", img: "/slides/ukmod1/ppt10/1.png" },
+        { id: "ukmod1-ppt11", title: "PPT 11", desc: "UK Module — Lesson 11", img: "/slides/ukmod1/ppt11/1.png" },
+        { id: "ukmod1-ppt12", title: "PPT 12", desc: "UK Module — Lesson 12", img: "/slides/ukmod1/ppt12/1.png" },
+        { id: "ukmod1-ppt13", title: "PPT 13", desc: "UK Module — Lesson 13", img: "/slides/ukmod1/ppt13/1.png" },
+        { id: "ukmod1-ppt14", title: "PPT 14", desc: "UK Module — Lesson 14", img: "/slides/ukmod1/ppt14/1.png" },
+        { id: "ukmod1-ppt15", title: "PPT 15", desc: "UK Module — Lesson 15", img: "/slides/ukmod1/ppt15/1.png" },
+        { id: "ukmod1-ppt16", title: "PPT 16", desc: "UK Module — Lesson 16", img: "/slides/ukmod1/ppt16/1.png" },
+        { id: "ukmod1-ppt17", title: "PPT 17", desc: "UK Module — Lesson 17", img: "/slides/ukmod1/ppt17/1.png" },
+        { id: "ukmod1-ppt18", title: "PPT 18", desc: "UK Module — Lesson 18", img: "/slides/ukmod1/ppt18/1.png" },
+        { id: "ukmod1-ppt19", title: "PPT 19", desc: "UK Module — Lesson 19", img: "/slides/ukmod1/ppt19/1.png" },
+        { id: "ukmod1-ppt20", title: "PPT 20", desc: "UK Module — Lesson 20", img: "/slides/ukmod1/ppt20/1.png" },
+        { id: "ukmod1-ppt21", title: "PPT 21", desc: "UK Module — Lesson 21", img: "/slides/ukmod1/ppt21/1.png" },
+        { id: "ukmod1-ppt22", title: "PPT 22", desc: "UK Module — Lesson 22", img: "/slides/ukmod1/ppt22/1.png" },
+        { id: "ukmod1-ppt23", title: "PPT 23", desc: "UK Module — Lesson 23", img: "/slides/ukmod1/ppt23/1.png" },
+        { id: "ukmod1-ppt24", title: "PPT 24", desc: "UK Module — Lesson 24", img: "/slides/ukmod1/ppt24/1.png" },
+        { id: "ukmod1-ppt25", title: "PPT 25", desc: "UK Module — Lesson 25", img: "/slides/ukmod1/ppt25/1.png" },
+        { id: "ukmod1-ppt26", title: "PPT 26", desc: "UK Module — Lesson 26", img: "/slides/ukmod1/ppt26/1.png" },
+      ],
+    },
+    {
+      id: "y7mod1",
+      title: "Year 7 Module 1",
+      desc: "Year 7 foundational lessons covering key concepts.",
+      ppts: [
+        { id: "y7mod1-ppt1", title: "PPT 1", desc: "Module Introduction", img: "/slides/y7mod1/ppt1/1.png" },
+        { id: "y7mod1-ppt2", title: "PPT 2", desc: "Core Concepts", img: "/slides/y7mod1/ppt2/1.png" },
+        { id: "y7mod1-ppt3", title: "PPT 3", desc: "Key Learning", img: "/slides/y7mod1/ppt3/1.png" },
+        { id: "y7mod1-ppt4", title: "PPT 4", desc: "Practice Session", img: "/slides/y7mod1/ppt4/1.png" },
+        { id: "y7mod1-ppt5", title: "PPT 5", desc: "Advanced Topics", img: "/slides/y7mod1/ppt5/1.png" },
+        { id: "y7mod1-ppt6", title: "PPT 6", desc: "Complex Problems", img: "/slides/y7mod1/ppt6/1.png" },
+        { id: "y7mod1-ppt7", title: "PPT 7", desc: "Applied Learning", img: "/slides/y7mod1/ppt7/1.png" },
+        { id: "y7mod1-ppt8", title: "PPT 8", desc: "Final Review", img: "/slides/y7mod1/ppt8/1.png" },
       ],
     },
     {
@@ -115,13 +163,26 @@ export default function CurriculumPage() {
 
   const currentModule = modules.find((m) => m.id === activeModule);
 
-  // 🔍 Open PPT with access check
+  // � Get folder for PPT
+  const getFolderForPPT = (id: string): string => {
+    // Extract folder from PPT ID pattern
+    if (id.startsWith("y7mod1-")) return "y7mod1";
+    if (id.startsWith("ukmod1-")) return "ukmod1";
+    if (id.startsWith("demo")) return "demo";
+    if (id.startsWith("y8mod1-")) return "y8mod1"; // Ready for future modules
+    if (id.startsWith("y9mod1-")) return "y9mod1";
+    return "naplan"; // Default folder
+  };
+
+  // �🔍 Open PPT with access check
   const openPPT = (id: string) => {
     if (!isAdmin && !allowedPPTs.includes(id)) {
       alert("🚫 Access denied — this PPT is not assigned to you.");
       return;
     }
-    router.push(`/viewer?id=${id}`);
+    
+    const set = getFolderForPPT(id);
+    router.push(`/viewer?id=${id}&set=${set}`);
   };
 
   // 🧑‍🏫 Assign PPT
