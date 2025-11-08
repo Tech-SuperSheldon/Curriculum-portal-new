@@ -15,6 +15,7 @@ interface ViewerProps {
   user: string;
   appName: string;
   watermarkText?: string;
+  set?: string; // Add set/folder prop
   onLogout: () => void;
 }
 
@@ -23,6 +24,7 @@ export default function Viewer({
   user,
   appName,
   watermarkText = "",
+  set = "naplan",
   onLogout,
 }: ViewerProps) {
   const router = useRouter();
@@ -235,7 +237,7 @@ export default function Viewer({
                     style={{ top: wmPos.top, left: wmPos.left }}
                   >
                     {watermarkText ||
-                      `${user} • ${appName} • ${new Date().toLocaleString()}`}
+                      `${user} • ${appName} • ${set} • ${new Date().toLocaleString()}`}
                   </div>
                 </div>
               </>
